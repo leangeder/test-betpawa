@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: test-betpawa
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: test-betpawa
+          servicePort: http
+      - path: /ping
+        backend:
+          serviceName: test-betpawa
+          servicePort: heath

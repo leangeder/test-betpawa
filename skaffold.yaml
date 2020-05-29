@@ -1,0 +1,35 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: test-betpawa
+build:
+  artifacts:
+  - image: leangeder/test-betpawa
+  tagPolicy:
+    sha256: {}
+  local:
+    useDockerCLI: false
+    useBuildkit: false
+deploy:
+  kustomize:
+    paths:
+    - .kustomization/prod
+profiles:
+- name: dev
+  activation:
+  - command: dev
+  deploy:
+    kustomize:
+      paths:
+      - .kustomization/dev
+  portForward:
+  - resourceType: service
+    resourceName: dev-test-betpawa
+    namespace: dev
+    port: 8080
+    localPort: 8080
+  - resourceType: deployment
+    resourceName: dev-test-betpawa
+    namespace: dev
+    port: 8090
+    localPort: 8090

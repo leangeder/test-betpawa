@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-betpawa
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: test
+        image: leangeder/test-betpawa
+        ports:
+        - name: http
+          containerPort: 8080
+        resources: {}
+        readinessProbe:
+          tcpSocket:
+            port: 8090
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8090
+          initialDelaySeconds: 15
+          periodSeconds: 20
